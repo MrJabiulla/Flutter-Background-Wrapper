@@ -1,8 +1,8 @@
 name: flutter_background_wraper
 description: A customizable background layout widget with loading, error, and refresh handling.
-version: 1.0.0
-homepage: https://github.com/MrJabiulla/flutter_background_wraper
-repository: https://github.com/MrJabiulla/flutter_background_wrapper
+version: 1.0.1
+homepage: https://github.com/MrJabiulla/Flutter-Background-Wrapper
+repository: https://github.com/MrJabiulla/Flutter-Background-Wrapper
 
 environment:
   sdk: ">=2.18.0 <4.0.0"
