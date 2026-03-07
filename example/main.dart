@@ -27,9 +27,9 @@ class _AppBackgroundExampleState extends State<AppBackgroundExample> {
 
   @override
   Widget build(BuildContext context) {
-    return AppBackground(
+    return AppBackground.color(
+      color: Colors.white54,
       title: 'FBW Example',
-      backgroundColor: Colors.blue.shade100,
       appBarHeight: 50.0,
       actions: [
         IconButton(

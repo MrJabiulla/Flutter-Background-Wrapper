@@ -6,6 +6,8 @@ import 'package:flutter/services.dart';
 import '../config/app_config.dart';
 import '../config/app_styles.dart';
 
+/// Defines how the background of [AppBackground] is rendered.
+enum _BackgroundType { color, image }
 
 /// A widget that provides a customizable background and app bar for your application screens.
 ///
@@ -13,157 +15,237 @@ import '../config/app_styles.dart';
 /// supports pull-to-refresh, custom actions, a floating action button, bottom navigation, and
 /// status bar customization. It is designed to streamline the creation of consistent page
 /// layouts throughout your app.
+///
+/// ## Named Constructors
+///
+/// Use the named constructors to set the background declaratively:
+///
+/// ```dart
+/// // Solid color background
+/// AppBackground.color(
+///   color: Colors.white,
+///   child: MyPage(),
+/// )
+///
+/// // Image background (asset, network, file — any [ImageProvider])
+/// AppBackground.image(
+///   image: AssetImage('assets/bg.png'),
+///   child: MyPage(),
+/// )
+/// ```
 class AppBackground extends StatelessWidget {
-  /// Creates an [AppBackground] widget.
+  // ─── Default Constructor (no background — uses AppConfig.backgroundColor) ──
+
+  /// Creates an [AppBackground] with the default background from [AppConfig.backgroundColor].
   ///
-  /// The [title] and [child] parameters are required.
-  /// Use the optional parameters to customize the appearance and behavior.
+  /// To set an explicit background use [AppBackground.color] or [AppBackground.image].
   const AppBackground({
     super.key,
-
-    /// The title displayed in the app bar.
-    required this.title,
-
-    /// The main content of the page.
     required this.child,
-
-    /// A custom widget to display as the app bar title instead of [title].
+    this.title = '',
     this.titleWidget,
-
-    /// Whether to show the back button in the app bar.
-    this.showBackButton = true,
-
-    /// Callback when the back button is pressed. Defaults to Navigator.maybePop().
+    this.showBackButton = false,
     this.onBackPressed,
-
-    /// List of widgets to display as action buttons in the app bar.
-    this.actions,
-
-    /// Widget to display as the bottom navigation bar.
-    this.bottomNavigationBar,
-
-    /// Widget to display as the floating action button.
-    this.floatingActionButton,
-
-    /// Custom background image for the app. If provided, it will be displayed behind the content.
-    this.backgroundImage,
-
-    /// The background color of the scaffold.
-    this.backgroundColor,
-
-    /// Custom background color for the app. Defaults to [AppConfig.backgroundColor].
-    this.appBarColor,
-
-    /// Whether to enable pull-to-refresh on the child content.
-    this.isRefresh = false,
-
-    /// Callback when a pull-to-refresh is triggered. Required if [isRefresh] is true.
-    this.onRefresh,
-
-    /// Whether to display a loading overlay.
-    this.isLoading = false,
-
-    /// Custom widget to display instead of the default loading indicator.
-    this.loadingWidget,
-
-    /// Whether to display an error overlay.
-    this.isError = false,
-
-    /// Message to display when an error occurs.
-    this.errorMessage,
-
-    /// Callback when the retry button is pressed after an error.
-    this.onRetry,
-
-    /// Whether to wrap the page content with a [SafeArea].
-    this.useSafeArea = true,
-
-    /// Whether the child content should be scrollable.
-    this.isChildScrollable = true,
-
-    /// A custom leading widget to display in the app bar instead of the back button.
     this.leading,
-
-    /// Custom height for the app bar.
+    this.showNotification = false,
+    this.onNotificationPressed,
+    this.notificationBadgeCount,
+    this.showSearch = false,
+    this.onSearchPressed,
+    this.showCall = false,
+    this.onCallPressed,
+    this.showOptions = false,
+    this.optionMenuItems,
+    this.onOptionSelected,
+    this.actions,
+    this.bottomNavigationBar,
+    this.floatingActionButton,
+    this.appBarColor,
     this.appBarHeight,
-
-    /// Custom status bar color.
+    this.isRefresh = false,
+    this.onRefresh,
+    this.isLoading = false,
+    this.loadingWidget,
+    this.isError = false,
+    this.errorMessage,
+    this.onRetry,
+    this.useSafeArea = true,
+    this.isChildScrollable = true,
     this.statusBarColor,
-
-    /// Custom status bar brightness (light/dark).
     this.statusBarBrightness,
-  });
+  })  : _backgroundType = null,
+        backgroundColor = null,
+        backgroundImage = null;
 
-  /// The title displayed in the app bar.
-  final String title;
+  // ─── Named Constructor: color ───────────────────────────────────────────────
 
-  /// The main content of the page.
-  final Widget child;
+  /// Creates an [AppBackground] with a solid [color] as the background.
+  ///
+  /// ```dart
+  /// AppBackground.color(
+  ///   color: Colors.blue.shade50,
+  ///   child: MyPage(),
+  /// )
+  /// ```
+  const AppBackground.color({
+    super.key,
+    required Color color,
+    required this.child,
+    this.title = '',
+    this.titleWidget,
+    this.showBackButton = false,
+    this.onBackPressed,
+    this.leading,
+    this.showNotification = false,
+    this.onNotificationPressed,
+    this.notificationBadgeCount,
+    this.showSearch = false,
+    this.onSearchPressed,
+    this.showCall = false,
+    this.onCallPressed,
+    this.showOptions = false,
+    this.optionMenuItems,
+    this.onOptionSelected,
+    this.actions,
+    this.bottomNavigationBar,
+    this.floatingActionButton,
+    this.appBarColor,
+    this.appBarHeight,
+    this.isRefresh = false,
+    this.onRefresh,
+    this.isLoading = false,
+    this.loadingWidget,
+    this.isError = false,
+    this.errorMessage,
+    this.onRetry,
+    this.useSafeArea = true,
+    this.isChildScrollable = true,
+    this.statusBarColor,
+    this.statusBarBrightness,
+  })  : _backgroundType = _BackgroundType.color,
+        backgroundColor = color,
+        backgroundImage = null;
 
-  /// A custom widget to display as the app bar title instead of [title].
-  final Widget? titleWidget;
+  // ─── Named Constructor: image ───────────────────────────────────────────────
 
-  /// Whether to show the back button in the app bar.
-  final bool showBackButton;
+  /// Creates an [AppBackground] with an [image] displayed behind all content.
+  ///
+  /// Accepts any [ImageProvider] — asset, network, memory, or file:
+  ///
+  /// ```dart
+  /// // Asset image
+  /// AppBackground.image(
+  ///   image: AssetImage('assets/background.png'),
+  ///   child: MyPage(),
+  /// )
+  ///
+  /// // Network image
+  /// AppBackground.image(
+  ///   image: NetworkImage('https://example.com/bg.jpg'),
+  ///   child: MyPage(),
+  /// )
+  /// ```
+  const AppBackground.image({
+    super.key,
+    required ImageProvider image,
+    required this.child,
+    this.title = '',
+    this.titleWidget,
+    this.showBackButton = false,
+    this.onBackPressed,
+    this.leading,
+    this.showNotification = false,
+    this.onNotificationPressed,
+    this.notificationBadgeCount,
+    this.showSearch = false,
+    this.onSearchPressed,
+    this.showCall = false,
+    this.onCallPressed,
+    this.showOptions = false,
+    this.optionMenuItems,
+    this.onOptionSelected,
+    this.actions,
+    this.bottomNavigationBar,
+    this.floatingActionButton,
+    this.appBarColor,
+    this.appBarHeight,
+    this.isRefresh = false,
+    this.onRefresh,
+    this.isLoading = false,
+    this.loadingWidget,
+    this.isError = false,
+    this.errorMessage,
+    this.onRetry,
+    this.useSafeArea = true,
+    this.isChildScrollable = true,
+    this.statusBarColor,
+    this.statusBarBrightness,
+  })  : _backgroundType = _BackgroundType.image,
+        backgroundImage = image,
+        backgroundColor = null;
 
-  /// Callback when the back button is pressed. Defaults to Navigator.maybePop().
-  final VoidCallback? onBackPressed;
+  // ─── Background ────────────────────────────────────────────────────────────
 
-  /// List of widgets to display as action buttons in the app bar.
-  final List<Widget>? actions;
+  /// Internal discriminator — null means fall back to [AppConfig.backgroundColor].
+  final _BackgroundType? _backgroundType;
 
-  /// Widget to display as the bottom navigation bar.
-  final Widget? bottomNavigationBar;
-
-  /// Widget to display as the floating action button.
-  final Widget? floatingActionButton;
-
-  /// The background color of the scaffold.
+  /// The solid color used when constructed via [AppBackground.color].
   final Color? backgroundColor;
 
-  /// Custom background image for the app. If provided, it will be displayed behind the content.
+  /// The image provider used when constructed via [AppBackground.image].
   final ImageProvider? backgroundImage;
 
-  /// Custom background color for the app. Defaults to [AppConfig.backgroundColor].
-  final Color? appBarColor;
+  // ─── Required ──────────────────────────────────────────────────────────────
+  final Widget child;
 
-  /// Whether to enable pull-to-refresh on the child content.
-  final bool isRefresh;
-
-  /// Callback when a pull-to-refresh is triggered. Required if [isRefresh] is true.
-  final Future<void> Function()? onRefresh;
-
-  /// Whether to display a loading overlay.
-  final bool isLoading;
-
-  /// Custom widget to display instead of the default loading indicator.
-  final Widget? loadingWidget;
-
-  /// Whether to display an error overlay.
-  final bool isError;
-
-  /// Message to display when an error occurs.
-  final String? errorMessage;
-
-  /// Callback when the retry button is pressed after an error.
-  final VoidCallback? onRetry;
-
-  /// Whether to wrap the page content with a [SafeArea].
-  final bool useSafeArea;
-
-  /// Whether the child content should be scrollable.
-  final bool isChildScrollable;
-
-  /// A custom leading widget to display in the app bar instead of the back button.
+  // ─── AppBar ────────────────────────────────────────────────────────────────
+  final String title;
+  final Widget? titleWidget;
+  final bool showBackButton;
+  final VoidCallback? onBackPressed;
   final Widget? leading;
 
-  /// Custom height for the app bar.
+  // ─── Preset Action Items ───────────────────────────────────────────────────
+  final bool showNotification;
+  final VoidCallback? onNotificationPressed;
+  final int? notificationBadgeCount;
+
+  final bool showSearch;
+  final VoidCallback? onSearchPressed;
+
+  final bool showCall;
+  final VoidCallback? onCallPressed;
+
+  final bool showOptions;
+  final List<PopupMenuEntry<dynamic>>? optionMenuItems;
+  final void Function(dynamic value)? onOptionSelected;
+
+  // ─── Extra Custom Actions ──────────────────────────────────────────────────
+  final List<Widget>? actions;
+
+  // ─── Layout & Styling ──────────────────────────────────────────────────────
+  final Widget? bottomNavigationBar;
+  final Widget? floatingActionButton;
+  final Color? appBarColor;
   final double? appBarHeight;
 
-  /// Custom status bar color.
-  final Color? statusBarColor;
+  // ─── Refresh ───────────────────────────────────────────────────────────────
+  final bool isRefresh;
+  final Future<void> Function()? onRefresh;
 
-  /// Custom status bar brightness (light/dark).
+  // ─── Loading ───────────────────────────────────────────────────────────────
+  final bool isLoading;
+  final Widget? loadingWidget;
+
+  // ─── Error ─────────────────────────────────────────────────────────────────
+  final bool isError;
+  final String? errorMessage;
+  final VoidCallback? onRetry;
+
+  // ─── Misc ──────────────────────────────────────────────────────────────────
+  final bool useSafeArea;
+  final bool isChildScrollable;
+  final Color? statusBarColor;
   final Brightness? statusBarBrightness;
 
   @override
@@ -180,9 +262,9 @@ class AppBackground extends StatelessWidget {
         Expanded(
           child: isRefresh
               ? RefreshIndicator(
-            onRefresh: onRefresh!,
-            child: _buildChildContent(),
-          )
+                  onRefresh: onRefresh!,
+                  child: _buildChildContent(),
+                )
               : _buildChildContent(),
         ),
       ],
@@ -192,29 +274,27 @@ class AppBackground extends StatelessWidget {
     SystemChrome.setSystemUIOverlayStyle(
       statusBarColor != null || statusBarBrightness != null
           ? SystemUiOverlayStyle(
-        statusBarColor: statusBarColor ?? Colors.transparent,
-        statusBarIconBrightness: statusBarBrightness ?? Brightness.dark,
-      )
+              statusBarColor: statusBarColor ?? Colors.transparent,
+              statusBarIconBrightness: statusBarBrightness ?? Brightness.dark,
+            )
           : AppConfig.statusBarStyle,
     );
 
     return Scaffold(
-      // Remove backgroundColor from Scaffold, handle it in the Stack for more flexibility.
       body: Stack(
         children: [
-          // Background image layer (if provided)
-          if (backgroundImage != null)
-            Positioned.fill(
-              child: Image(
-                image: backgroundImage!,
-                fit: BoxFit.cover,
-              ),
-            ),
-          // Background color layer (covers the whole screen)
+          // ── Background layer ─────────────────────────────────────────
+          // Renders either an image (AppBackground.image), a solid
+          // color (AppBackground.color), or the default AppConfig.backgroundColor.
           Positioned.fill(
-            child: Container(
-              color: backgroundColor ?? AppConfig.backgroundColor,
-            ),
+            child: _backgroundType == _BackgroundType.image
+                ? Image(
+                    image: backgroundImage!,
+                    fit: BoxFit.cover,
+                  )
+                : _backgroundType == _BackgroundType.color
+                    ? ColoredBox(color: backgroundColor!)
+                    : ColoredBox(color: AppConfig.backgroundColor),
           ),
           // Main content (with optional SafeArea)
           useSafeArea ? SafeArea(top: false, child: body) : body,
@@ -237,19 +317,34 @@ class AppBackground extends StatelessWidget {
   Widget _buildChildContent() {
     return isChildScrollable
         ? SingleChildScrollView(
-      physics: const BouncingScrollPhysics(),
-      child: child,
-    )
+            physics: const BouncingScrollPhysics(),
+            child: child,
+          )
         : child;
   }
 
-  /// Builds the app bar section with optional back button, custom leading widget, title, and actions.
+  /// Builds the app bar section.
+  ///
+  /// - Back button is hidden by default ([showBackButton] = false).
+  /// - Title is only rendered when [title] is non-empty (or [titleWidget] is provided).
+  /// - Preset icons (notification, search, call, options) are shown based on their flags.
+  /// - Extra [actions] are appended after preset icons.
   Widget _buildAppBar(BuildContext context) {
+    // Determine whether to show any leading widget
+    final bool hasLeading = showBackButton || leading != null;
+
+    // Title widget: prefer titleWidget, then fall back to title string (only if non-empty)
+    final Widget? resolvedTitle = titleWidget ??
+        (title.isNotEmpty
+            ? Text(title, style: AppStyles.titleTextStyle)
+            : null);
+
     return Container(
       color: appBarColor ?? Colors.transparent,
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       child: Row(
         children: [
+          // ── Leading / Back Button ──────────────────────────────────────
           if (showBackButton)
             GestureDetector(
               onTap: onBackPressed ?? () => Navigator.of(context).maybePop(),
@@ -257,14 +352,84 @@ class AppBackground extends StatelessWidget {
             )
           else if (leading != null)
             leading!,
-          if (showBackButton || leading != null) const SizedBox(width: 12),
-          titleWidget ??
-              Expanded(
-                child: Text(
-                  title,
-                  style: AppStyles.titleTextStyle,
+
+          if (hasLeading) const SizedBox(width: 12),
+
+          // ── Title ──────────────────────────────────────────────────────
+          if (resolvedTitle != null)
+            Expanded(child: resolvedTitle)
+          else
+            const Spacer(),
+
+          // ── Preset: Search ─────────────────────────────────────────────
+          if (showSearch)
+            IconButton(
+              icon: const Icon(Icons.search),
+              onPressed: onSearchPressed,
+              tooltip: 'Search',
+            ),
+
+          // ── Preset: Call ───────────────────────────────────────────────
+          if (showCall)
+            IconButton(
+              icon: const Icon(Icons.call),
+              onPressed: onCallPressed,
+              tooltip: 'Call',
+            ),
+
+          // ── Preset: Notification (with optional badge) ─────────────────
+          if (showNotification)
+            Stack(
+              clipBehavior: Clip.none,
+              children: [
+                IconButton(
+                  icon: const Icon(Icons.notifications_outlined),
+                  onPressed: onNotificationPressed,
+                  tooltip: 'Notifications',
                 ),
-              ),
+                if (notificationBadgeCount != null &&
+                    notificationBadgeCount! > 0)
+                  Positioned(
+                    top: 6,
+                    right: 6,
+                    child: IgnorePointer(
+                      child: Container(
+                        padding: const EdgeInsets.all(3),
+                        decoration: const BoxDecoration(
+                          color: Colors.red,
+                          shape: BoxShape.circle,
+                        ),
+                        constraints: const BoxConstraints(
+                          minWidth: 16,
+                          minHeight: 16,
+                        ),
+                        child: Text(
+                          notificationBadgeCount! > 99
+                              ? '99+'
+                              : '$notificationBadgeCount',
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 9,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    ),
+                  ),
+              ],
+            ),
+
+          // ── Preset: Options (3-dot menu) ───────────────────────────────
+          if (showOptions)
+            PopupMenuButton<dynamic>(
+              icon: const Icon(Icons.more_vert),
+              tooltip: 'More options',
+              onSelected: onOptionSelected,
+              itemBuilder: (context) => optionMenuItems ?? [],
+            ),
+
+          // ── Extra Custom Actions ───────────────────────────────────────
           if (actions != null) ...actions!,
         ],
       ),
