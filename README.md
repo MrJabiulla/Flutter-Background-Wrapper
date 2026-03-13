@@ -13,13 +13,10 @@ A powerful Flutter package that streamlines the creation of consistent, professi
 ## 📋 Table of Contents
 
 - [Features](#-features)
-- [Preview](#-preview)
-- [Installation](#-installation)
 - [Usage](#-usage)
   - [Basic — Color Background](#basic--color-background)
   - [Image Background](#image-background)
   - [Full Featured Example](#full-featured-example)
-- [Parameters](#-parameters)
 - [Requirements](#-requirements)
 - [Contributing](#-contributing)
 - [License](#-license)
@@ -39,38 +36,6 @@ A powerful Flutter package that streamlines the creation of consistent, professi
 
 ---
 
-## 🖼️ Preview
-
-> _Add screenshots or GIFs of your package in action here._
-
-| Color Background | Image Background | With Navigation |
-|:---:|:---:|:---:|
-| ![color](screenshots/color_bg.png) | ![image](screenshots/image_bg.png) | ![nav](screenshots/nav.png) |
-
----
-
-## 🚀 Installation
-
-Add `flutter_background_wraper` to your `pubspec.yaml`:
-
-```yaml
-dependencies:
-  flutter_background_wraper: ^1.0.4
-```
-
-Then run:
-
-```bash
-flutter pub get
-```
-
-Import in your Dart file:
-
-```dart
-import 'package:flutter_background_wraper/flutter_background_wraper.dart';
-```
-
----
 
 ## 📖 Usage
 
@@ -150,39 +115,6 @@ AppBackground.color(
 
 ---
 
-## 🧩 Parameters
-
-### `AppBackground.color`
-
-| Parameter | Type | Required | Default | Description |
-|---|---|:---:|---|---|
-| `color` | `Color` | ✅ | — | Background color |
-| `child` | `Widget` | ✅ | — | Main content widget |
-| `title` | `String` | ❌ | `null` | AppBar title text |
-| `appBarHeight` | `double` | ❌ | `56.0` | Height of the AppBar |
-| `actions` | `List<Widget>` | ❌ | `null` | AppBar action buttons |
-| `showBackButton` | `bool` | ❌ | `true` | Show/hide back button |
-| `isScrollable` | `bool` | ❌ | `true` | Enable content scrolling |
-| `isRefresh` | `bool` | ❌ | `false` | Enable pull-to-refresh |
-| `onRefresh` | `Future<void> Function()` | ❌ | `null` | Refresh callback |
-| `isLoading` | `bool` | ❌ | `false` | Show loading state |
-| `isError` | `bool` | ❌ | `false` | Show error state |
-| `loadingWidget` | `Widget` | ❌ | `null` | Custom loading widget |
-| `errorWidget` | `Widget` | ❌ | `null` | Custom error widget |
-| `bottomNavigationBar` | `Widget` | ❌ | `null` | Bottom navigation bar |
-| `floatingActionButton` | `Widget` | ❌ | `null` | Floating action button |
-
-### `AppBackground.image`
-
-All parameters above apply, plus:
-
-| Parameter | Type | Required | Default | Description |
-|---|---|:---:|---|---|
-| `image` | `ImageProvider` | ✅ | — | Background image provider |
-| `imagefit` | `BoxFit` | ❌ | `BoxFit.cover` | How the image fills the background |
-
----
-
 ## 📋 Requirements
 
 | | Minimum Version |
@@ -226,5 +158,5 @@ MIT License — Copyright (c) 2024 MrJabiulla
 ---
 
 <p align="center">
-  Made with ❤️ by <a href="https://github.com/MrJabiulla"><b>MrJabiulla</b></a>
+  Developed by <a href="https://github.com/MrJabiulla"><b>MrJabiulla</b></a>
 </p>
