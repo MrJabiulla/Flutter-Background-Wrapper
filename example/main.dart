@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_background_wraper/flutter_background_wrapper.dart';
+import 'package:flutter_background_wraper/flutter_background_wraper.dart';
 
 void main() => runApp(const MyApp());
 
@@ -34,15 +34,11 @@ class _AppBackgroundExampleState extends State<AppBackgroundExample> {
       actions: [
         IconButton(
           icon: const Icon(Icons.search),
-          onPressed: () => showSearchBar(context),
+          onPressed: () {},
         ),
         IconButton(
           icon: const Icon(Icons.notifications),
-          onPressed: () {
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('No new notifications')),
-            );
-          },
+          onPressed: () {},
         ),
       ],
       bottomNavigationBar: BottomNavigationBar(
@@ -83,42 +79,5 @@ class _AppBackgroundExampleState extends State<AppBackgroundExample> {
       // Profile tab
       return const Center(child: Text('Profile Content'));
     }
-  }
-
-  void showSearchBar(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: const Text('Search'),
-          content: TextField(
-            controller: _searchController,
-            decoration: const InputDecoration(hintText: 'Type to search...'),
-            autofocus: true,
-            onSubmitted: (query) {
-              Navigator.pop(context);
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text('Searching for "$query"...')),
-              );
-            },
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: const Text('Cancel'),
-            ),
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text('Searching for "${_searchController.text}"...')),
-                );
-              },
-              child: const Text('Search'),
-            ),
-          ],
-        );
-      },
-    );
   }
 }
