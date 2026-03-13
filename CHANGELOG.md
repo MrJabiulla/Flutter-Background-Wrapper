@@ -1,3 +1,13 @@
+## 1.0.4
+
+- Bug fixes and improvements.
+
+## 1.0.3
+
+- Improved documentation and dartdoc comments
+- Enhanced static analysis compliance
+- Better example and usage documentation
+
 ## 1.0.2
 
 - Stable release with enhanced features and improvements.

@@ -196,57 +196,120 @@ class AppBackground extends StatelessWidget {
   final ImageProvider? backgroundImage;
 
   // ─── Required ──────────────────────────────────────────────────────────────
+
+  /// The main content widget to display within the background and app bar wrapper.
   final Widget child;
 
   // ─── AppBar ────────────────────────────────────────────────────────────────
+
+  /// The title text displayed in the app bar.
   final String title;
+
+  /// Optional custom widget to replace the default title text.
   final Widget? titleWidget;
+
+  /// Whether to show a back button in the app bar.
   final bool showBackButton;
+
+  /// Callback triggered when the back button is pressed.
   final VoidCallback? onBackPressed;
+
+  /// Optional leading widget displayed before the title in the app bar.
   final Widget? leading;
 
   // ─── Preset Action Items ───────────────────────────────────────────────────
+
+  /// Whether to show a notification icon in the app bar.
   final bool showNotification;
+
+  /// Callback triggered when the notification icon is pressed.
   final VoidCallback? onNotificationPressed;
+
+  /// Optional badge count displayed on the notification icon.
   final int? notificationBadgeCount;
 
+  /// Whether to show a search icon in the app bar.
   final bool showSearch;
+
+  /// Callback triggered when the search icon is pressed.
   final VoidCallback? onSearchPressed;
 
+  /// Whether to show a call icon in the app bar.
   final bool showCall;
+
+  /// Callback triggered when the call icon is pressed.
   final VoidCallback? onCallPressed;
 
+  /// Whether to show an options menu icon in the app bar.
   final bool showOptions;
+
+  /// Menu items for the options popup menu.
   final List<PopupMenuEntry<dynamic>>? optionMenuItems;
+
+  /// Callback triggered when an option menu item is selected.
   final void Function(dynamic value)? onOptionSelected;
 
   // ─── Extra Custom Actions ──────────────────────────────────────────────────
+
+  /// Additional custom action widgets to display in the app bar.
   final List<Widget>? actions;
 
   // ─── Layout & Styling ──────────────────────────────────────────────────────
+
+  /// Optional bottom navigation bar widget.
   final Widget? bottomNavigationBar;
+
+  /// Optional floating action button widget.
   final Widget? floatingActionButton;
+
+  /// Background color of the app bar.
   final Color? appBarColor;
+
+  /// Height of the app bar. Defaults to [AppConfig.defaultAppBarHeight].
   final double? appBarHeight;
 
   // ─── Refresh ───────────────────────────────────────────────────────────────
+
+  /// Whether to enable pull-to-refresh functionality.
   final bool isRefresh;
+
+  /// Callback triggered when the user pulls to refresh.
   final Future<void> Function()? onRefresh;
 
   // ─── Loading ───────────────────────────────────────────────────────────────
+
+  /// Whether to show the loading indicator overlay.
   final bool isLoading;
+
+  /// Custom widget to display during loading state. Defaults to [AppConfig.loadingWidget].
   final Widget? loadingWidget;
 
   // ─── Error ─────────────────────────────────────────────────────────────────
+
+  /// Whether to show the error state overlay.
   final bool isError;
+
+  /// Error message to display in the error state.
   final String? errorMessage;
+
+  /// Callback triggered when the user taps the retry button in error state.
   final VoidCallback? onRetry;
 
   // ─── Misc ──────────────────────────────────────────────────────────────────
+
+  /// Whether to apply safe area padding.
   final bool useSafeArea;
+
+  /// Whether the child widget should be scrollable.
   final bool isChildScrollable;
+
+  /// Background color of the status bar.
   final Color? statusBarColor;
+
+  /// Brightness of the status bar icons.
   final Brightness? statusBarBrightness;
+
+  /// The child widget to display as the main content.
 
   @override
   Widget build(BuildContext context) {
